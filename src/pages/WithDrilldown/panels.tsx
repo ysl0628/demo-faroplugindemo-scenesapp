@@ -129,3 +129,17 @@ export function getRoomTemperatureStatPanel(reducers: ReducerID[]) {
   });
   return PanelBuilders.stat().setData(data).setUnit('celsius').build();
 }
+
+export function getRoomHumidityStatPanel(reducers: ReducerID[]) {
+  const data = new SceneDataTransformer({
+    transformations: [
+      {
+        id: 'reduce',
+        options: {
+          reducers,
+        },
+      },
+    ],
+  });
+  return PanelBuilders.stat().setData(data).setUnit('humidity').build();
+}

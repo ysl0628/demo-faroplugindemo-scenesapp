@@ -11,7 +11,7 @@ import {
   PanelBuilders,
 } from '@grafana/scenes';
 import { DATASOURCE_REF } from '../../constants';
-import { getRoomTemperatureStatPanel } from './panels';
+import { getRoomTemperatureStatPanel, getRoomHumidityStatPanel } from './panels';
 
 export function getTemperatureOverviewScene(roomName: string) {
   return new EmbeddedScene({
@@ -70,6 +70,25 @@ export function getHumidityOverviewScene(roomName: string) {
         new SceneFlexItem({
           height: 500,
           body: PanelBuilders.timeseries().setTitle('Humidity over time').setUnit('humidity').build(),
+        }),
+        new SceneFlexItem({
+          body: new SceneFlexLayout({
+            direction: 'row',
+            children: [
+              new SceneFlexItem({
+                body: getRoomHumidityStatPanel([ReducerID.min]),
+              }),
+              new SceneFlexItem({
+                body: getRoomHumidityStatPanel([ReducerID.max]),
+              }),
+              new SceneFlexItem({
+                body: getRoomHumidityStatPanel([ReducerID.sum]),
+              }),
+              new SceneFlexItem({
+                body: getRoomHumidityStatPanel([ReducerID.count]),
+              }),
+            ],
+          }),
         }),
       ],
     }),
