@@ -11,13 +11,31 @@ import {
   SceneCSSGridItem,
   SceneGridLayout,
   SceneGridRow,
-  SceneGridItem
+  SceneGridItem,
+  SceneQueryRunner,
 } from '@grafana/scenes';
-import { ROUTES } from '../../constants';
+import { DATASOURCE_REF, ROUTES } from '../../constants';
 // import { getBasicScene } from 'pages/Home/scenes';
 import { prefixRoute } from 'utils/utils.routing';
 import { Button, LinkButton, Select } from '@grafana/ui';
 import React from 'react';
+
+const queryRunner = new SceneQueryRunner({
+  datasource: DATASOURCE_REF,
+  queries: [
+    {
+      refId: 'A',
+      datasource: DATASOURCE_REF,
+      scenarioId: 'random_walk',
+      seriesCount: 5,
+      // Query is using variable value
+      alias: '__server_names',
+      min: 30,
+      max: 60,
+    },
+  ],
+  maxDataPoints: 100,
+});
 
 const getHelloWorldScene = () => {
   return new EmbeddedScene({
@@ -73,19 +91,17 @@ const getHeaderActionsScene = () => {
           body: PanelBuilders.timeseries()
             .setTitle('Panel with select')
             // .setData(getQueryRunnerWithRandomWalkQuery())
-            .setHeaderActions(
-              <Select options={[{ label: 'Option 1', value: '1' }]} onChange={() => {}} value="1" />
-            )
+            .setHeaderActions(<Select options={[{ label: 'Option 1', value: '1' }]} onChange={() => {}} value="1" />)
             .build(),
         }),
-      ]
-  }),
-})
-}
+      ],
+    }),
+  });
+};
 
 export function getGridWithRowLayout() {
   return new EmbeddedScene({
-    // $data: getQueryRunnerWithRandomWalkQuery(),
+    $data: queryRunner,
     body: new SceneGridLayout({
       isDraggable: true,
       isResizable: true,
@@ -95,7 +111,7 @@ export function getGridWithRowLayout() {
           key: 'Row A',
           isCollapsed: true,
           isDraggable: true,
-          isResizable: true,
+          isResizable: false,
           y: 0,
           x: 0,
           children: [
@@ -130,7 +146,7 @@ export function getGridWithRowLayout() {
               y: 2,
               width: 12,
               height: 5,
-              isResizable: false,
+              isResizable: true,
               isDraggable: true,
               body: PanelBuilders.timeseries().setTitle('Row B Child1').build(),
             }),
@@ -159,7 +175,6 @@ export function getGridWithRowLayout() {
   });
 }
 
-
 export function getScene() {
   return new SceneApp({
     name: 'Hello World',
@@ -179,7 +194,7 @@ export function getScene() {
           }),
           new SceneToolbarInput({ onChange: (value) => console.log(value) }),
         ],
-        tabs:[
+        tabs: [
           new SceneAppPage({
             title: 'Hello World Scene',
             url: prefixRoute(`${ROUTES.HelloWorld}`),
@@ -191,12 +206,12 @@ export function getScene() {
             getScene: getHeaderActionsScene,
           }),
           new SceneAppPage({
-            title:'Grid Layout Scene',
-            url:prefixRoute(`${ROUTES.HelloWorld}/tab-three`),
-            getScene:getGridWithRowLayout,
-          })
-        ]
+            title: 'Grid Layout Scene',
+            url: prefixRoute(`${ROUTES.HelloWorld}/tab-three`),
+            getScene: getGridWithRowLayout,
+          }),
+        ],
       }),
     ],
   });
-};
+}
