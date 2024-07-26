@@ -11,7 +11,7 @@ import {
   SceneCSSGridItem,
   SceneGridLayout,
   SceneGridRow,
-  SceneGridItem
+  SceneGridItem,
 } from '@grafana/scenes';
 import { ROUTES } from '../../constants';
 // import { getBasicScene } from 'pages/Home/scenes';
@@ -73,15 +73,13 @@ const getHeaderActionsScene = () => {
           body: PanelBuilders.timeseries()
             .setTitle('Panel with select')
             // .setData(getQueryRunnerWithRandomWalkQuery())
-            .setHeaderActions(
-              <Select options={[{ label: 'Option 1', value: '1' }]} onChange={() => {}} value="1" />
-            )
+            .setHeaderActions(<Select options={[{ label: 'Option 1', value: '1' }]} onChange={() => {}} value="1" />)
             .build(),
         }),
-      ]
-  }),
-})
-}
+      ],
+    }),
+  });
+};
 
 export function getGridWithRowLayout() {
   return new EmbeddedScene({
@@ -159,7 +157,6 @@ export function getGridWithRowLayout() {
   });
 }
 
-
 export function getScene() {
   return new SceneApp({
     name: 'Hello World',
@@ -179,7 +176,7 @@ export function getScene() {
           }),
           new SceneToolbarInput({ onChange: (value) => console.log(value) }),
         ],
-        tabs:[
+        tabs: [
           new SceneAppPage({
             title: 'Hello World Scene',
             url: prefixRoute(`${ROUTES.HelloWorld}`),
@@ -191,12 +188,12 @@ export function getScene() {
             getScene: getHeaderActionsScene,
           }),
           new SceneAppPage({
-            title:'Grid Layout Scene',
-            url:prefixRoute(`${ROUTES.HelloWorld}/tab-three`),
-            getScene:getGridWithRowLayout,
-          })
-        ]
+            title: 'Grid Layout Scene',
+            url: prefixRoute(`${ROUTES.HelloWorld}/tab-three`),
+            getScene: getGridWithRowLayout,
+          }),
+        ],
       }),
     ],
   });
-};
+}

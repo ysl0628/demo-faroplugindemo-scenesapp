@@ -72,8 +72,10 @@ export function getHumidityOverviewScene(roomName: string) {
           body: PanelBuilders.timeseries().setTitle('Humidity over time').setUnit('humidity').build(),
         }),
         new SceneFlexItem({
+          minHeight: 200,
           body: new SceneFlexLayout({
             direction: 'row',
+            // ySizing: 'fill',
             children: [
               new SceneFlexItem({
                 body: getRoomHumidityStatPanel([ReducerID.min]),

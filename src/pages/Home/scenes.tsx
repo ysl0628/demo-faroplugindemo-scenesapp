@@ -14,6 +14,7 @@ import {
 } from '@grafana/scenes';
 import { DATASOURCE_REF } from '../../constants';
 import { CustomSceneObject } from './CustomSceneObject';
+import { VariableHide } from '@grafana/schema';
 
 export function getBasicScene(templatised = true, seriesToShow = '__server_names') {
   const timeRange = new SceneTimeRange({
@@ -27,6 +28,7 @@ export function getBasicScene(templatised = true, seriesToShow = '__server_names
     label: 'Series to show',
     value: '__server_names',
     query: 'Server Names : __server_names, House locations : __house_locations',
+    hide: VariableHide.hideLabel,
   });
 
   // Query runner definition, using Grafana built-in TestData datasource
