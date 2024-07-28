@@ -7,6 +7,7 @@ import { prefixRoute } from '../../utils/utils.routing';
 import { ROUTES } from '../../constants';
 import { HelloWorldPluginPage } from '../../pages/HelloWorld';
 import { ResizablePluginPage } from 'pages/Resizable';
+import { FaroPluginPage } from 'pages/Faro';
 
 export const Routes = () => {
   return (
@@ -16,6 +17,7 @@ export const Routes = () => {
       <Route path={prefixRoute(`${ROUTES.Home}`)} component={HomePage} />
       <Route path={prefixRoute(`${ROUTES.HelloWorld}`)} component={HelloWorldPluginPage} />
       <Route path={prefixRoute(`${ROUTES.Resizable}`)} component={ResizablePluginPage} />
+      <Route path={prefixRoute(`${ROUTES.Faro}`)} component={FaroPluginPage} />
       <Redirect to={prefixRoute(ROUTES.Home)} />
     </Switch>
   );
